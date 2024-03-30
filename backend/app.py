@@ -6,12 +6,12 @@ from database import app, db, Teacher, Course, Lecture
 from llm.gemma import ChatAgent
 
 # CORS(app)
-from tts.tts import TTS
+from audio.tts import TTS
 # Base directory where the script is located
 BASE_DIR = os.path.dirname(__file__)
 
 # Directories for uploads and data, now relative to the script's location
-app.config['AUDIO_FOLDER'] = os.path.join(BASE_DIR, 'audio')
+app.config['AUDIO_FOLDER'] = os.path.join(BASE_DIR, 'audio/audio_resources')
 
 
 @app.route('/')
