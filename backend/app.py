@@ -29,7 +29,7 @@ def create_teacher():
 
     name = request.form['name']
     teacher_name_sanitized = secure_filename(name)
-    filename = f"{teacher_name_sanitized}.mp3"
+    filename = f"{teacher_name_sanitized}.wav"
     audio_path = os.path.join(app.config['AUDIO_FOLDER'], filename)
 
     audio.save(audio_path)
