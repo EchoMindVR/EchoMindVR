@@ -13,36 +13,36 @@ from langchain_core.messages import HumanMessage
 
 
 class ChatAgent():
-    def __init__(self) -> None:
+    def __init__(self, lecture:str|None=None) -> None:
         _qa_system_prompt = """You are an assistant for question-answering tasks. \
         Use the following pieces of retrieved context to answer the question. \
         If you don't know the answer, just say that you don't know. \
         Use three sentences maximum and keep the answer concise.\
 
         {context}"""
-        _qa_prompt = ChatPromptTemplate.from_messages(
+        self._qa_prompt = ChatPromptTemplate.from_messages(
             [
                 ("system", _qa_system_prompt),
                 MessagesPlaceholder("chat_history"),
                 ("human", "{input}"),
             ]
         )
-
+        self.lecture = lecture
         _contextualize_q_system_prompt = """Given a chat history and the latest user question \
         which might reference context in the chat history, formulate a standalone question \
         which can be understood without the chat history. Do NOT answer the question, \
         just reformulate it if needed and otherwise return it as is."""
 
-        _contextualize_q_prompt = ChatPromptTemplate.from_messages(
+        self._contextualize_q_prompt = ChatPromptTemplate.from_messages(
             [
                 ("system", _contextualize_q_system_prompt),
                 MessagesPlaceholder("chat_history"),
                 ("human", "{input}"),
             ]
         )
-        
-        callback_manager = CallbackManager([StreamingStdOutCallbackHandler()])
-        chat_history = []
+
+        self.callback_manager = CallbackManager([StreamingStdOutCallbackHandler()])
+        self.chat_history = []
 
     def gemma_chat(self, query: str):
         llm = ChatOllama(model="gemma:7b", temperature=0, callbacks=self.callback_manager)

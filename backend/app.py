@@ -174,13 +174,12 @@ def read_course():
 
 # We init for test purpose since we won't call init each time in test
 CURR_CHAT_AGENT = ChatAgent()
-
 @app.route('/gemma/init', methods=['POST'])
 def chat_init():
     lecture = Lecture.query.filter_by(id=id).all()
     context = lecture.context
-    
-    chat_agent = ChatAgent()
+
+    chat_agent = ChatAgent(lecture)
 
     global CURR_CHAT_AGENT
     CURR_CHAT_AGENT = chat_agent
@@ -191,8 +190,8 @@ def chat_init():
 @app.route('/gemma/extend', methods=['POST'])
 def chat_extend():
     query = request.get_json().get('query', '')
-    
-    global CURR_CHAT_AGENT 
+
+    global CURR_CHAT_AGENT
     chat_agent = CURR_CHAT_AGENT
 
     response = chat_agent.gemma_chat(query)
@@ -203,13 +202,13 @@ def chat_extend():
 @app.route('/gemma/talk', methods=['POST'])
 def talk_gemma():
     query = request.get_json().get('query', '')
-    
-    global CURR_CHAT_AGENT 
+
+    global CURR_CHAT_AGENT
     chat_agent = CURR_CHAT_AGENT
 
     response = chat_agent.gemma_chat(query)
     output = response['answer']
-    tts.generate_audio(output, 'andrew_ng')
+    tts.generate_audio(output, 'steven_he')
     return jsonify({'response': output}), 200
 
 
