@@ -43,7 +43,6 @@ def create_teacher():
     db.session.commit()
     return jsonify({'message': f'Teacher {name} created/updated successfully'}), 201
 
-
 @app.route('/teacher/read', methods=['GET', 'POST'])
 def read_teacher():
     if request.method == 'POST':
@@ -199,6 +198,53 @@ def chat_extend():
     output = response['answer']
     return jsonify({'response': output, 'chat_history': chat_agent.chat_history}), 200
 
+@app.route('/student/create_student', methods=['POST'])
+def create_student():
+    data = request.get_json()
+
+    if not data or not all(k in data for k in ('name',)):
+        return jsonify({'error': 'Missing data'}), 400
+
+    name = data['name']
+    student = Student.query.filter_by(name=name).first()
+
+    if student:
+        return jsonify({'error': 'Student already exists'}), 400
+    else:
+        student = Student(name=name)
+        db.session.add(student)
+        db.session.commit()
+
+    return jsonify({'message': f'Student "{name}" created successfully.'}), 201
+
+@app.route('/student/enroll_course', methods=['POST'])
+def enroll_course():
+    data = request.get_json()
+
+    if not data or not all(k in data for k in ('student_id', 'course_id')):
+        return jsonify({'error': 'Missing data'}), 400
+
+    student_id = data['student_id']
+    course_id = data['course_id']
+
+    student = Student.query.filter_by(student_id=student_id).first()
+    course = Course.query.filter_by(id=course_id).first()
+
+    if not student or not course:
+        return jsonify({'error': 'Student or Course not found'}), 404
+
+    enrollment = Enrollment.query.filter_by(student_id=student_id, course_id=course_id).first()
+
+    if enrollment:
+        return jsonify({'error': 'Student already enrolled in this course'}), 400
+    else:
+        enrollment = Enrollment(student_id=student_id, course_id=course_id)
+        db.session.add(enrollment)
+        db.session.commit()
+
+    return jsonify({'message': f'Student "{student_id}" enrolled in course "{course_id}" successfully.'}), 201
+
+
 
 @app.route('/gemma/talk', methods=['POST'])
 def talk_gemma():
@@ -214,6 +260,46 @@ def talk_gemma():
 
 
 tts = TTS()
+
+
+# create student, enrol course
+@app.route('/teacher/create_student', methods=['POST'])
+def create_lecture():
+    data = request.get_json()
+
+    if not data or not all(k in data for k in ('lecture_id', 'course_name', 'context', 'summary_notes_path')):
+        return jsonify({'error': 'Missing data'}), 400
+
+    course_name = data['course_name']
+    course = Course.query.filter_by(name=course_name).first()
+
+    if not course:
+        # If the course doesn't exist, create it
+        course = Course(name=course_name, teacher_name="Default Teacher", cover_path="default_cover.jpg")
+        db.session.add(course)
+        db.session.flush()  # Flush to assign an ID to the course
+
+    lecture_id = data['lecture_id']
+    lecture = Lecture.query.filter_by(lecture_id=lecture_id).first()
+
+    if lecture:
+        # If the lecture exists, update it
+        lecture.context = data['context']
+        lecture.summary_notes_path = data['summary_notes_path']
+    else:
+        # If the lecture doesn't exist, create it
+        lecture = Lecture(
+            lecture_id=lecture_id,
+            course_id=course.id,
+            context=data['context'],
+            summary_notes_path=data['summary_notes_path']
+        )
+        db.session.add(lecture)
+
+    db.session.commit()
+
+    return jsonify({'message': f'Lecture "{lecture_id}" created/updated successfully under course "{course_name}".'}), 201
+
 
 
 if __name__ == '__main__':
