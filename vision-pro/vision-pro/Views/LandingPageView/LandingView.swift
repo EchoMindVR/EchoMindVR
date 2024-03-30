@@ -8,11 +8,7 @@ struct LandingView: View {
     var body: some View {
         NavigationStack {
             VStack(spacing: 60) {
-                Text("Empowering Your Learning Journey with Augmented Discovery.")
-                    .multilineTextAlignment(.center)
-                    .font(.system(size: 62))
-                    .fontWeight(.medium)
-                    .padding(.horizontal, 200)
+                TypingTextView(text: "Empowering Your Learning Journey with Augmented Discovery.")
                     
                 
                 

@@ -2,7 +2,10 @@
 import SwiftUI
 
 // The detail view for a Classroom
-struct CoursePagelView: View {
+struct CoursePageView: View {
+    
+    @Binding var isPresentingClassroomDetail: Bool;
+    
     let classroom: Classroom
     let lessons: [Lesson] = [
         // Populate with real data
@@ -44,13 +47,16 @@ struct CoursePagelView: View {
                     .padding(.leading)
                 ForEach(lessons) { lesson in
                     HStack {
-                        Text(lesson.title)
-                            .fontWeight(.semibold)
-                        Spacer()
-                        Text(dateFormatter.string(from: lesson.date))
-                            .font(.footnote)
-                            .foregroundColor(.gray)
-                        Image(systemName: "chevron.right")
+                        NavigationLink(destination: ChatView()) {
+                            Text(lesson.title)
+                                .fontWeight(.semibold)
+                            Spacer()
+                            Text(dateFormatter.string(from: lesson.date))
+                                .font(.footnote)
+                                .foregroundColor(.gray)
+                            Image(systemName: "chevron.right")
+                        }
+                       
                     }
                     .padding(.horizontal)
                     Divider()
@@ -59,15 +65,6 @@ struct CoursePagelView: View {
             
             Spacer()
             
-            // Here is where you might add your spinning planet or other course-related graphics
-            // For simplicity, I'm including a placeholder image view
-            Image(classroom.imageName)
-                .resizable()
-                .aspectRatio(contentMode: .fit)
-                .frame(width: 200, height: 200)
-                .padding()
-            
-            Spacer()
         }
         .navigationBarTitle(Text("CS51 - Introduction to Generative AI"), displayMode: .inline)
         .navigationBarItems(
@@ -78,5 +75,6 @@ struct CoursePagelView: View {
                 Text("Log Out")
             }
         )
+        .padding(40)
     }
 }

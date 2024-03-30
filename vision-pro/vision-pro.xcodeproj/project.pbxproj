@@ -12,7 +12,6 @@
 		7A53772B2BB882A5002F18E1 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A53772A2BB882A5002F18E1 /* ContentView.swift */; };
 		7A53772D2BB882A5002F18E1 /* ImmersiveView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A53772C2BB882A5002F18E1 /* ImmersiveView.swift */; };
 		7A53772F2BB882A5002F18E1 /* ImageBasedLighting.skybox in Resources */ = {isa = PBXBuildFile; fileRef = 7A53772E2BB882A5002F18E1 /* ImageBasedLighting.skybox */; };
-		7A5377312BB882A6002F18E1 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7A5377302BB882A6002F18E1 /* Assets.xcassets */; };
 		7A5377342BB882A6002F18E1 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7A5377332BB882A6002F18E1 /* Preview Assets.xcassets */; };
 		7A53773C2BB88319002F18E1 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7A53773B2BB88319002F18E1 /* Assets.xcassets */; };
 		7A5377452BB8833E002F18E1 /* FunButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A53773D2BB8833E002F18E1 /* FunButton.swift */; };
@@ -20,10 +19,13 @@
 		7A5377472BB8833E002F18E1 /* TextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A5377412BB8833E002F18E1 /* TextField.swift */; };
 		7A5377482BB8833E002F18E1 /* Schema.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A5377432BB8833E002F18E1 /* Schema.swift */; };
 		7A53774B2BB88344002F18E1 /* BlurView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A5377492BB88344002F18E1 /* BlurView.swift */; };
-		7A5377552BB88353002F18E1 /* CoursePagelView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A53774C2BB88353002F18E1 /* CoursePagelView.swift */; };
+		7A5377552BB88353002F18E1 /* CoursePageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A53774C2BB88353002F18E1 /* CoursePageView.swift */; };
 		7A5377562BB88353002F18E1 /* HomePage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A53774E2BB88353002F18E1 /* HomePage.swift */; };
 		7A5377572BB88353002F18E1 /* LandingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A5377512BB88353002F18E1 /* LandingView.swift */; };
 		7A5377582BB88353002F18E1 /* LoginPage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A5377522BB88353002F18E1 /* LoginPage.swift */; };
+		7AD8E05C2BB899910036B2E7 /* TypingText.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7AD8E05B2BB899910036B2E7 /* TypingText.swift */; };
+		7AD8E05E2BB8A4DB0036B2E7 /* ChatView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7AD8E05D2BB8A4DB0036B2E7 /* ChatView.swift */; };
+		7AD8E0612BB8A5220036B2E7 /* ChatSettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7AD8E0602BB8A5220036B2E7 /* ChatSettingsView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -33,7 +35,6 @@
 		7A53772A2BB882A5002F18E1 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		7A53772C2BB882A5002F18E1 /* ImmersiveView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImmersiveView.swift; sourceTree = "<group>"; };
 		7A53772E2BB882A5002F18E1 /* ImageBasedLighting.skybox */ = {isa = PBXFileReference; lastKnownFileType = file.skybox; path = ImageBasedLighting.skybox; sourceTree = "<group>"; };
-		7A5377302BB882A6002F18E1 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		7A5377332BB882A6002F18E1 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		7A5377352BB882A6002F18E1 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		7A53773B2BB88319002F18E1 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -42,10 +43,13 @@
 		7A5377412BB8833E002F18E1 /* TextField.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TextField.swift; sourceTree = "<group>"; };
 		7A5377432BB8833E002F18E1 /* Schema.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Schema.swift; sourceTree = "<group>"; };
 		7A5377492BB88344002F18E1 /* BlurView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BlurView.swift; sourceTree = "<group>"; };
-		7A53774C2BB88353002F18E1 /* CoursePagelView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CoursePagelView.swift; sourceTree = "<group>"; };
+		7A53774C2BB88353002F18E1 /* CoursePageView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CoursePageView.swift; sourceTree = "<group>"; };
 		7A53774E2BB88353002F18E1 /* HomePage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HomePage.swift; sourceTree = "<group>"; };
 		7A5377512BB88353002F18E1 /* LandingView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LandingView.swift; sourceTree = "<group>"; };
 		7A5377522BB88353002F18E1 /* LoginPage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginPage.swift; sourceTree = "<group>"; };
+		7AD8E05B2BB899910036B2E7 /* TypingText.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TypingText.swift; sourceTree = "<group>"; };
+		7AD8E05D2BB8A4DB0036B2E7 /* ChatView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatView.swift; sourceTree = "<group>"; };
+		7AD8E0602BB8A5220036B2E7 /* ChatSettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatSettingsView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -80,15 +84,14 @@
 		7A5377232BB882A5002F18E1 /* vision-pro */ = {
 			isa = PBXGroup;
 			children = (
-				7A5377442BB8833E002F18E1 /* Components */,
 				7A5377282BB882A5002F18E1 /* vision_proApp.swift */,
+				7A53772A2BB882A5002F18E1 /* ContentView.swift */,
+				7A53772C2BB882A5002F18E1 /* ImmersiveView.swift */,
+				7A5377442BB8833E002F18E1 /* Components */,
 				7A5377542BB88353002F18E1 /* Views */,
 				7A53774A2BB88344002F18E1 /* Styles */,
-				7A53772A2BB882A5002F18E1 /* ContentView.swift */,
 				7A53773B2BB88319002F18E1 /* Assets.xcassets */,
-				7A53772C2BB882A5002F18E1 /* ImmersiveView.swift */,
 				7A53772E2BB882A5002F18E1 /* ImageBasedLighting.skybox */,
-				7A5377302BB882A6002F18E1 /* Assets.xcassets */,
 				7A5377352BB882A6002F18E1 /* Info.plist */,
 				7A5377322BB882A6002F18E1 /* Preview Content */,
 			);
@@ -142,6 +145,7 @@
 				7A5377402BB8833E002F18E1 /* Cards */,
 				7A5377422BB8833E002F18E1 /* TextFields */,
 				7A5377432BB8833E002F18E1 /* Schema.swift */,
+				7AD8E05B2BB899910036B2E7 /* TypingText.swift */,
 			);
 			path = Components;
 			sourceTree = "<group>";
@@ -157,7 +161,9 @@
 		7A53774D2BB88353002F18E1 /* CoursePageView */ = {
 			isa = PBXGroup;
 			children = (
-				7A53774C2BB88353002F18E1 /* CoursePagelView.swift */,
+				7A53774C2BB88353002F18E1 /* CoursePageView.swift */,
+				7AD8E05D2BB8A4DB0036B2E7 /* ChatView.swift */,
+				7AD8E0602BB8A5220036B2E7 /* ChatSettingsView.swift */,
 			);
 			path = CoursePageView;
 			sourceTree = "<group>";
@@ -258,7 +264,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				7A5377312BB882A6002F18E1 /* Assets.xcassets in Resources */,
 				7A5377342BB882A6002F18E1 /* Preview Assets.xcassets in Resources */,
 				7A53773C2BB88319002F18E1 /* Assets.xcassets in Resources */,
 				7A53772F2BB882A5002F18E1 /* ImageBasedLighting.skybox in Resources */,
@@ -274,8 +279,11 @@
 			files = (
 				7A53772B2BB882A5002F18E1 /* ContentView.swift in Sources */,
 				7A53774B2BB88344002F18E1 /* BlurView.swift in Sources */,
+				7AD8E0612BB8A5220036B2E7 /* ChatSettingsView.swift in Sources */,
 				7A5377292BB882A5002F18E1 /* vision_proApp.swift in Sources */,
-				7A5377552BB88353002F18E1 /* CoursePagelView.swift in Sources */,
+				7A5377552BB88353002F18E1 /* CoursePageView.swift in Sources */,
+				7AD8E05E2BB8A4DB0036B2E7 /* ChatView.swift in Sources */,
+				7AD8E05C2BB899910036B2E7 /* TypingText.swift in Sources */,
 				7A5377582BB88353002F18E1 /* LoginPage.swift in Sources */,
 				7A5377462BB8833E002F18E1 /* Card.swift in Sources */,
 				7A5377562BB88353002F18E1 /* HomePage.swift in Sources */,

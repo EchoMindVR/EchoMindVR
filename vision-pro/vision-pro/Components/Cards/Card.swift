@@ -2,9 +2,10 @@ import SwiftUI
 
 struct CardView: View {
     let classroom: Classroom
+    @Binding var isPresentingClassroomDetail: Bool;
     
     var body: some View {
-        NavigationLink(destination: CoursePagelView(classroom: classroom)){
+        NavigationLink(destination: CoursePageView(isPresentingClassroomDetail: $isPresentingClassroomDetail, classroom: classroom)){
             VStack(alignment: .leading) {
                 Image(classroom.imageName) // Use your own images
                     .resizable()

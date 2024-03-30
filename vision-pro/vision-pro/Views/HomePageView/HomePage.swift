@@ -3,6 +3,7 @@ import SwiftUI
 
 struct HomePage: View {
     
+    @Binding var isPresentingClassroomDetail: Bool;
     @Binding var isLoggedIn: Bool;
     @State var query: String = "";
     
@@ -24,11 +25,12 @@ struct HomePage: View {
            classroom.name.localizedCaseInsensitiveContains(query) || classroom.university.localizedCaseInsensitiveContains(query)
         }
     }
+    
+    
 
 
     var body: some View {
         ZStack {
-            // Content
             NavigationView {
                 VStack {
                     Spacer()
@@ -65,16 +67,14 @@ struct HomePage: View {
                     LazyVGrid(columns: [GridItem(.flexible(maximum: 440)), GridItem(.flexible(maximum: 440)), GridItem(.flexible(maximum: 440))],
                               alignment: .leading, spacing: 30) {
                         ForEach(filteredClasses) { classroom in
-                            CardView(classroom: classroom)
+                            CardView(classroom: classroom, isPresentingClassroomDetail: $isPresentingClassroomDetail)
                         }
                     }
-                    .padding(.top, 20)
+                              .padding(.top, 20)
                 }
                 .padding(.horizontal, 40)
-
-            }
-            
                 
+            }
         }
     }
 }
