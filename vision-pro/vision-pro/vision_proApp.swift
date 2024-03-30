@@ -10,12 +10,14 @@ import SwiftUI
 @main
 struct Vision_Pro: App {
     var body: some Scene {
-        WindowGroup {
+        WindowGroup("Learning App", id: "modules") {
             ContentView()
         }
-
+        .defaultSize(CGSize(width: 1500, height: 850))
+    
         ImmersiveSpace(id: "ImmersiveSpace") {
             ImmersiveView()
         }.immersionStyle(selection: .constant(.full), in: .full)
+        
     }
 }
