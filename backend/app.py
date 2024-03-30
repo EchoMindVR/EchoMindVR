@@ -6,14 +6,13 @@ from database import app, db, Teacher, Course, Lecture
 from llm.gemma import ChatAgent
 
 # CORS(app)
-
+from tts.tts import TTS
 # Base directory where the script is located
-BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+BASE_DIR = os.path.dirname(__file__)
 
 # Directories for uploads and data, now relative to the script's location
 app.config['AUDIO_FOLDER'] = os.path.join(BASE_DIR, 'audio')
 
-CURR_CHAT_AGENT = None
 
 @app.route('/')
 def test_connection():
@@ -173,6 +172,8 @@ def read_course():
         return jsonify(courses_info), 200
     return jsonify({'error': 'Invalid request'}), 400
 
+# We init for test purpose since we won't call init each time in test
+CURR_CHAT_AGENT = ChatAgent()
 
 @app.route('/gemma/init', methods=['POST'])
 def chat_init():
@@ -199,15 +200,20 @@ def chat_extend():
     return jsonify({'response': output, 'chat_history': chat_agent.chat_history}), 200
 
 
-@app.route('/gemma/chat', methods=['POST'])
-def chat_gemma():
-    query = request.get_json().get('query', '')
-    doc = request.get_json().get('doc', '')
+@app.route('/gemma/talk', methods=['POST'])
+def talk_gemma():
+     query = request.get_json().get('query', '')
+    
+    global CURR_CHAT_AGENT 
+    chat_agent = CURR_CHAT_AGENT
 
-    chat_agent = ChatAgent()
     response = chat_agent.gemma_chat(query)
     output = response['answer']
+    tts.generate_audio(output, 'andrew_ng')
     return jsonify({'response': output}), 200
+
+
+tts = TTS()
 
 
 if __name__ == '__main__':
