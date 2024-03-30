@@ -170,8 +170,13 @@ def read_course():
 
 
 @app.route('/gemma/chat', methods=['POST'])
-def read_course():
-    return
+def chat_gemma():
+    query = request.get_json().get('query', '')
+    doc = request.get_json().get('doc', '')
+
+    response, chat_history = gemma_chat(query)
+    output = response['answer']
+    return jsonify({'response': output}), 200
 
 if __name__ == '__main__':
     with app.app_context():

@@ -2,7 +2,7 @@ from langchain import hub
 from langchain.agents import AgentExecutor, create_structured_chat_agent
 from langchain_community.tools.tavily_search import TavilySearchResults
 from langchain_community.chat_models import ChatOllama
-from rag import retrieve_docs
+from llm.rag import retrieve_docs
 from langchain.callbacks.streaming_stdout import StreamingStdOutCallbackHandler
 from langchain.callbacks.manager import CallbackManager
 from langchain.chains import create_history_aware_retriever
