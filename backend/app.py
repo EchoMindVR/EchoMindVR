@@ -202,7 +202,7 @@ def chat_extend():
 
 @app.route('/gemma/talk', methods=['POST'])
 def talk_gemma():
-     query = request.get_json().get('query', '')
+    query = request.get_json().get('query', '')
     
     global CURR_CHAT_AGENT 
     chat_agent = CURR_CHAT_AGENT

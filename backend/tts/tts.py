@@ -16,4 +16,4 @@ class TTS():
         self.tts.tts_to_file(text=text,
                         file_path=os.path.join(self.output_dir, "output.mp3"),
                         speaker_wav=os.path.join(self.wav_path, speaker_path),
-                        language="en")'
+                        language="en")
