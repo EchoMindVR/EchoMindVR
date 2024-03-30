@@ -3,6 +3,7 @@ from flask import Flask, request, jsonify
 from werkzeug.utils import secure_filename
 from flask_sqlalchemy import SQLAlchemy
 from database import app, db, Teacher, Course, Lecture
+from llm.gemma import gemma_chat
 
 # CORS(app)
 
@@ -168,14 +169,11 @@ def read_course():
     return jsonify({'error': 'Invalid request'}), 400
 
 
+@app.route('/gemma/chat', methods=['POST'])
+def read_course():
+    return
 
 if __name__ == '__main__':
     with app.app_context():
         db.create_all()
     app.run(debug=True)
-
-# Add a new teacher to the database
-
-
-# if __name__ == '__main__':
-#     app.run(debug=True)
