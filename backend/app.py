@@ -3,15 +3,17 @@ from flask import Flask, request, jsonify
 from werkzeug.utils import secure_filename
 from flask_sqlalchemy import SQLAlchemy
 from database import app, db, Teacher, Course, Lecture
-from llm.gemma import gemma_chat
-from llm.pdf_split import load_pdfs_into_chroma_db
+from llm.gemma import ChatAgent
+
+# CORS(app)
 
 # Base directory where the script is located
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 
 # Directories for uploads and data, now relative to the script's location
 app.config['AUDIO_FOLDER'] = os.path.join(BASE_DIR, 'audio')
-load_pdfs_into_chroma_db()
+
+CURR_CHAT_AGENT = None
 
 @app.route('/')
 def test_connection():
@@ -42,6 +44,7 @@ def create_teacher():
     db.session.commit()
     return jsonify({'message': f'Teacher {name} created/updated successfully'}), 201
 
+
 @app.route('/teacher/read', methods=['GET', 'POST'])
 def read_teacher():
     if request.method == 'POST':
@@ -63,11 +66,13 @@ def read_teacher():
         teachers_list = [{'name': teacher.name, 'audio_path': teacher.audio_path} for teacher in teachers]
         return jsonify(teachers_list), 200
 
+
 @app.route('/db/reset', methods=['POST'])
 def reset_database():
     db.drop_all()
     db.create_all()
     return jsonify({'message': 'Database reset successfully.'}), 200
+
 
 @app.route('/teacher/create_course', methods=['POST'])
 def create_course():
@@ -94,6 +99,7 @@ def create_course():
     db.session.commit()
 
     return jsonify({'message': f'Course "{course_name}" created successfully.'}), 201
+
 
 @app.route('/teacher/create_lecture', methods=['POST'])
 def create_lecture():
@@ -132,9 +138,9 @@ def create_lecture():
 
     return jsonify({'message': f'Lecture "{lecture_id}" created/updated successfully under course "{course_name}".'}), 201
 
+
 @app.route('/course/read', methods=['GET', 'POST'])
 def read_course():
-
     if request.method == 'POST':
         course_name = request.args.get('name')
         # Reading a specific course and its lectures
@@ -168,14 +174,41 @@ def read_course():
     return jsonify({'error': 'Invalid request'}), 400
 
 
+@app.route('/gemma/init', methods=['POST'])
+def chat_init():
+    lecture = Lecture.query.filter_by(id=id).all()
+    context = lecture.context
+    
+    chat_agent = ChatAgent()
+
+    global CURR_CHAT_AGENT
+    CURR_CHAT_AGENT = chat_agent
+
+    return jsonify({'context': context}), 200
+
+
+@app.route('/gemma/extend', methods=['POST'])
+def chat_extend():
+    query = request.get_json().get('query', '')
+    
+    global CURR_CHAT_AGENT 
+    chat_agent = CURR_CHAT_AGENT
+
+    response = chat_agent.gemma_chat(query)
+    output = response['answer']
+    return jsonify({'response': output, 'chat_history': chat_agent.chat_history}), 200
+
+
 @app.route('/gemma/chat', methods=['POST'])
 def chat_gemma():
     query = request.get_json().get('query', '')
     doc = request.get_json().get('doc', '')
 
-    response, chat_history = gemma_chat(query)
+    chat_agent = ChatAgent()
+    response = chat_agent.gemma_chat(query)
     output = response['answer']
     return jsonify({'response': output}), 200
+
 
 if __name__ == '__main__':
     with app.app_context():
