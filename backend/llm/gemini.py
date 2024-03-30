@@ -1,8 +1,8 @@
 from langchain import hub
 from langchain.agents import AgentExecutor, create_structured_agent
 from langchain_community.utilities.wolfram_alpha import WolframAlphaAPIWrapper
-from langchain_google_genai import ChatGoogleGenerativeAI
 from langchain.pydantic_v1 import BaseModel, Field
+from langchain_google_vertexai import ChatVertexAI
 from langchain.tools import BaseTool, StructuredTool, tool
 from rag import retrieve_docs
 
@@ -11,7 +11,6 @@ from dotenv import load_dotenv
 load_dotenv()
 
 os.environ["WOLFRAM_ALPHA_APPID"] = os.getenv("WOLFRAM_ALPHA_APPID")
-os.environ["GOOGLE_API_KEY"] = os.getenv("GOOGLE_API_KEY")
 
 @tool
 def rag(query: str) -> str:
@@ -22,18 +21,10 @@ def rag(query: str) -> str:
 
 def gemini_chat(query: str, chat_history: list = [], image_url: str = None):
     if image:
-        llm = ChatGoogleGenerativeAI(model="gemini-pro-vision", temperature=0)
-        query = HumanMessage(
-            content=[
-                {
-                    "type": "text",
-                    "text": query,
-                },  # You can optionally provide text parts
-                {"type": "image_url", "image_url": image_url},
-            ]
-        )
+        llm = ChatVertexAI(model="gemini-pro-vision", temperature=0)
+        
     else:
-        llm = ChatGoogleGenerativeAI(model="gemini-pro", temperature=0)
+        llm = ChatVertexAI(model="gemini-pro", temperature=0)
 
     prompt = hub.pull("kenwu/react-json")
     tools = [WolframAlphaAPIWrapper(), rag]
@@ -52,6 +43,7 @@ def gemini_chat(query: str, chat_history: list = [], image_url: str = None):
             "chat_history": chat_history,
         }
     )
+
     if image:
         chat_history.extend([HumanMessage(content=query.content[0]['text'])], response["output"])
     else:

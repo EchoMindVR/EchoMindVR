@@ -14,12 +14,21 @@ arxiv_retriever = ArxivRetriever(load_max_docs=2)
 
 def retrieve_docs(query: str):
     tavily_results = tavily_retriever.invoke(query)
-    arxiv_results = arxiv_retriever.get_relevant_documents(query)
     tavily_results = text_splitter.split_documents(tavily_results)
-    arxiv_results = text_splitter.split_documents(arxiv_results)
     tavily_results = filter_complex_metadata(tavily_results)
+    
+    arxiv_results = arxiv_retriever.get_relevant_documents(query)
+    arxiv_results = text_splitter.split_documents(arxiv_results)
     arxiv_results = filter_complex_metadata(arxiv_results)
+   
     chromadb = Chroma(persist_directory='./chroma_db', embedding_function = SentenceTransformerEmbeddings(model_name="all-MiniLM-L6-v2"))
-    chromadb.add_documents(tavily_results)
-    chromadb.add_documents(arxiv_results)
+    
+    try:
+        chromadb.add_documents(tavily_results)
+    except:
+        pass
+    try:
+        chromadb.add_documents(arxiv_results)
+    except:
+        pass
     return chromadb
