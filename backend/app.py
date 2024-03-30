@@ -22,8 +22,10 @@ def test_connection():
 
 @app.route('/teacher/create', methods=['POST'])
 def create_teacher():
-    if 'audio' not in request.files or 'name' not in request.form:
-        return jsonify({'error': 'Missing name or audio data'}), 400
+    if 'audio' not in request.files:
+        return jsonify({'error': 'Missing audio data'}), 400
+    elif 'name' not in request.form:
+        return jsonify({'error': 'Missing name data'}), 400
 
     audio = request.files['audio']
 
@@ -174,6 +176,7 @@ def read_course():
 
 # We init for test purpose since we won't call init each time in test
 CURR_CHAT_AGENT = ChatAgent()
+
 @app.route('/gemma/init', methods=['POST'])
 def chat_init():
     lecture = Lecture.query.filter_by(id=id).all()
@@ -196,7 +199,7 @@ def chat_extend():
 
     response = chat_agent.gemma_chat(query)
     output = response['answer']
-    return jsonify({'response': output, 'chat_history': chat_agent.chat_history}), 200
+    return jsonify({'response': output}), 200
 
 
 @app.route('/gemma/talk', methods=['POST'])
@@ -208,11 +211,11 @@ def talk_gemma():
 
     response = chat_agent.gemma_chat(query)
     output = response['answer']
-    tts.generate_audio(output, 'steven_he')
+    # tts.generate_audio(output, 'steven_he')
     return jsonify({'response': output}), 200
 
 
-tts = TTS()
+# tts = TTS()
 
 
 if __name__ == '__main__':
