@@ -4,15 +4,14 @@ from werkzeug.utils import secure_filename
 from flask_sqlalchemy import SQLAlchemy
 from database import app, db, Teacher, Course, Lecture
 from llm.gemma import gemma_chat
-
-# CORS(app)
+from llm.pdf_split import load_pdfs_into_chroma_db
 
 # Base directory where the script is located
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 
 # Directories for uploads and data, now relative to the script's location
 app.config['AUDIO_FOLDER'] = os.path.join(BASE_DIR, 'audio')
-
+load_pdfs_into_chroma_db()
 
 @app.route('/')
 def test_connection():
