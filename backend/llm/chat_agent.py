@@ -6,7 +6,7 @@ class chat_agent:
     def __init__(self):
         pass
     
-    def chat(model: str, query: str, persona: str, file_path: str, chat_history: list = []):
+    def chat(model: str, query: str, persona: str, file_path: str = None, chat_history: list = []):
         if model == "gemma":
             return gemma_chat(query, persona, chat_history)
         if model == "gemini":
