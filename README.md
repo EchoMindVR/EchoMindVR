@@ -1,10 +1,15 @@
 # EchoMindVR
+![main(1)](https://github.com/EchoMindVR/EchoMindVR/assets/86748529/b36cd3df-c9c6-4bed-a9e9-d00ca4d6e4ec)
 
 ## Inspiration
 With the current methods of in person learning, there is not sufficient educational resources for every student. However, majority of online courses do not effectively simulate a classroom environment, where there is a lack of interaction between a student and instructor. EchoMindVR aims to bridge this gap, increasing the quality of education and creating a personalizable online learning environment for everyone. 
 
 ## What it does
 Designed to engage students in interactive lessons through a wide range of courses created by the teachers, EchoMindVR is an innovative educational platform that leverages AI to simulate real-time conversations for students in various voices and styles. The immersive VR environment simulates a classroom, providing the best of both worlds. Teachers are able to upload course content along with an audio recording of their own voice which is used to generate an interactive lecture. By engaging with the LLM assisted instructor, the student is able to ask questions and receive answers in real-time. This way, students are encouraged to explore topics more deeply, fostering a deeper understanding with the material
+
+![course_lectures](https://github.com/EchoMindVR/EchoMindVR/assets/86748529/e418f2fd-24ae-4a87-bf5f-54124430d63d)
+
+<img width="713" alt="teacher_preparing" src="https://github.com/EchoMindVR/EchoMindVR/assets/86748529/402a89d7-d487-48ba-abce-1b9d945ffa7d">
 
 ## How we built it
 Building EchoMindVR involved an interdisciplinary approach, combining expertise in web and app design, AI/ML, voice synthesis, and educational content creation. We utilized Python, Flask, SQL Alchemy for backend and database development, Werkzeug for file security, incorporating various models for audio generation and LLMs for lecture content generation. The immersive VR environment was developed using Swift for an Apple Vision Pro simulator, creating an user-friendly interface to immerse the student in the classroom. Lecture content development focuses on retrieval augmented generation (RAG) to fetch relevant information, feeding to fine-tune LLMs to create analysis and explanation for the student. The team also cared about security in AI when developing the project. We employed Werkzeug, which significantly helped secure filename for file uploads. The LLMs were fine-tuned with RAG and LangChain to provide content and data safety.
