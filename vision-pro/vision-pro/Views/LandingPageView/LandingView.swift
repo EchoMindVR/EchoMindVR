@@ -4,6 +4,7 @@ struct LandingView: View {
     // Hover effect (button)
     @State private var isHovered = false
     @Binding var isLoggedIn: Bool
+    @Binding var userName: String;
     
     var body: some View {
         NavigationStack {
@@ -12,7 +13,7 @@ struct LandingView: View {
                     
                 
                 
-                NavigationLink(destination: LoginPage(isLoggedIn: $isLoggedIn)) {
+                NavigationLink(destination: LoginPage(isLoggedIn: $isLoggedIn, userName: $userName)) {
                     Text("Enter App")
                         .fontWeight(.semibold)
                         .frame(width: 180, height: 28)

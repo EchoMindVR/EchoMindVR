@@ -2,7 +2,7 @@ from flask_sqlalchemy import SQLAlchemy
 from flask import Flask
 
 app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///teachers.db'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///echomind.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
 
@@ -10,7 +10,8 @@ db = SQLAlchemy(app)
 class Teacher(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String, unique=True, nullable=False)
-    audio_path = db.Column(db.String, nullable=False)
+    password = db.Column(db.String, unique=False, nullable=False)
+    audio_path = db.Column(db.String, nullable=True)
 
     def __repr__(self):
         return f'<Teacher {self.name}>'

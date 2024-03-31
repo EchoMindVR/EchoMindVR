@@ -26,6 +26,7 @@
 		7AD8E05C2BB899910036B2E7 /* TypingText.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7AD8E05B2BB899910036B2E7 /* TypingText.swift */; };
 		7AD8E05E2BB8A4DB0036B2E7 /* ChatView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7AD8E05D2BB8A4DB0036B2E7 /* ChatView.swift */; };
 		7AD8E0612BB8A5220036B2E7 /* ChatSettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7AD8E0602BB8A5220036B2E7 /* ChatSettingsView.swift */; };
+		7AD8E0632BB8E87E0036B2E7 /* GlobalConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7AD8E0622BB8E87E0036B2E7 /* GlobalConstants.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -50,6 +51,7 @@
 		7AD8E05B2BB899910036B2E7 /* TypingText.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TypingText.swift; sourceTree = "<group>"; };
 		7AD8E05D2BB8A4DB0036B2E7 /* ChatView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatView.swift; sourceTree = "<group>"; };
 		7AD8E0602BB8A5220036B2E7 /* ChatSettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatSettingsView.swift; sourceTree = "<group>"; };
+		7AD8E0622BB8E87E0036B2E7 /* GlobalConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlobalConstants.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -94,6 +96,7 @@
 				7A53772E2BB882A5002F18E1 /* ImageBasedLighting.skybox */,
 				7A5377352BB882A6002F18E1 /* Info.plist */,
 				7A5377322BB882A6002F18E1 /* Preview Content */,
+				7AD8E0622BB8E87E0036B2E7 /* GlobalConstants.swift */,
 			);
 			path = "vision-pro";
 			sourceTree = "<group>";
@@ -291,6 +294,7 @@
 				7A53772D2BB882A5002F18E1 /* ImmersiveView.swift in Sources */,
 				7A5377482BB8833E002F18E1 /* Schema.swift in Sources */,
 				7A5377572BB88353002F18E1 /* LandingView.swift in Sources */,
+				7AD8E0632BB8E87E0036B2E7 /* GlobalConstants.swift in Sources */,
 				7A5377452BB8833E002F18E1 /* FunButton.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

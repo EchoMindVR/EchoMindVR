@@ -4,11 +4,23 @@ enum AccountType {
     case teacher, learner
 }
 
+enum AlertType {
+    case success
+    case warning
+    case error
+}
+
 struct LoginPage: View {
     @State private var username: String = ""
     @State private var password: String = ""
     @State private var selectedAccountType: AccountType? = nil
+    @State private var showAlert: Bool = false
+    @State private var alertMessage: String = ""
+    @State private var alertOpacity: Double = 1.0
+    @State private var alertType: AlertType = .success
+
     @Binding var isLoggedIn: Bool
+    @Binding var userName: String
 
     var body: some View {
         ZStack {
@@ -114,17 +126,39 @@ struct LoginPage: View {
                             .cornerRadius(12)
 
                         
-                        Button(action: {
-                            isLoggedIn = true
-                        }) {
-                            Text("Login")
-                                .foregroundColor(.white)
-                                .frame(maxWidth: .infinity)
-                                .padding()
+//                        Button(action: {
+//                            isLoggedIn = true
+//                        }) {
+//                            Text("Login")
+//                                .foregroundColor(.white)
+//                                .frame(maxWidth: .infinity)
+//                                .padding()
+//                        }
+//                        .frame(width: 130, height: 28)
+//                        .padding(.top, 30)
+                        HStack {
+                            Button(action: {
+                                loginUser()
+                            }) {
+                                Text("Login")
+                                    .foregroundColor(.white)
+                                    .frame(maxWidth: .infinity)
+                                    .padding()
+                            }
+                            .frame(width: 150, height: 28)
+                            .padding(.top, 30)
+                            
+                            Button(action: {
+                                signUpUser()
+                            }) {
+                                Text("Sign Up")
+                                    .foregroundColor(.white)
+                                    .frame(maxWidth: .infinity)
+                                    .padding()
+                            }
+                            .frame(width: 150, height: 28)
+                            .padding(.top, 30)
                         }
-                        .frame(width: 130, height: 28)
-                        .padding(.top, 30)
-                        
                         
                     }
                     .padding(.leading, 100)
@@ -139,5 +173,124 @@ struct LoginPage: View {
             Spacer()
         }
         .edgesIgnoringSafeArea(.all)
+        .overlay(
+            Group {
+                if showAlert {
+                    AlertView(message: alertMessage, type: alertType)
+                        .opacity(alertOpacity)
+                        .transition(.move(edge: .top).combined(with: .opacity))
+                        .onAppear {
+                            withAnimation(.easeOut(duration: 2)) {
+                                alertOpacity = 0
+                            }
+                            DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+                                showAlert = false
+                                alertOpacity = 1
+                            }
+                        }
+                        .background()
+                }
+            }, alignment: .top
+        )
+    }
+    
+    
+    
+    
+    func loginUser() {
+        guard let url = URL(string: "\(backendBaseURL)/teacher/login") else { return }
+        print(url)
+        var request = URLRequest(url: url)
+        request.httpMethod = "POST"
+        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+        let body: [String: String] = ["name": username, "password": password]
+        request.httpBody = try? JSONSerialization.data(withJSONObject: body, options: [])
+        
+        URLSession.shared.dataTask(with: request) { data, response, error in
+            guard let httpResponse = response as? HTTPURLResponse else { return }
+            DispatchQueue.main.async {
+                if httpResponse.statusCode == 201 {
+                    isLoggedIn = true
+                    userName = username
+                } else if httpResponse.statusCode == 409 {
+                    alertMessage = "Name or Password Wrong"
+                    alertType = .warning
+                    showAlert = true
+                } else {
+                    alertMessage = "An unknown error occurred"
+                    alertType = .error
+                    showAlert = true
+                }
+                
+                if showAlert {
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+                        showAlert = false
+                    }
+                }
+            }
+        }.resume()
+    }
+    func signUpUser() {
+        guard let url = URL(string: "\(backendBaseURL)/teacher/signup") else { return }
+        var request = URLRequest(url: url)
+        request.httpMethod = "POST"
+        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+        let body: [String: String] = ["name": username, "password": password]
+        request.httpBody = try? JSONSerialization.data(withJSONObject: body, options: [])
+        
+        URLSession.shared.dataTask(with: request) { data, response, error in
+            guard let httpResponse = response as? HTTPURLResponse else { return }
+            DispatchQueue.main.async {
+                if httpResponse.statusCode == 201 {
+                    alertMessage = "Signup successful, please log in"
+                    alertType = .success
+                    showAlert = true
+                } else if httpResponse.statusCode == 409 {
+                    alertMessage = "User already exists"
+                    alertType = .warning
+                    showAlert = true
+                } else {
+                    alertMessage = "An unknown error occurred"
+                    alertType = .error
+                    showAlert = true
+                }
+                
+                if showAlert {
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+                        showAlert = false
+                    }
+                }
+            }
+        }.resume()
+    }
+
+
+}
+
+
+struct CustomAlertView: View {
+    var message: String
+
+    var body: some View {
+        Text(message)
+            .padding()
+            .foregroundColor(.white)
+            .background(Color.red)
+            .cornerRadius(10)
+            .shadow(radius: 5)
+            .padding(.top, 50)
+    }
+}
+
+struct AlertView: View {
+    var message: String
+    var type: AlertType
+
+    var body: some View {
+        Text(message)
+            .foregroundColor(.white)
+            .padding()
+            .background(type == .success ? Color.green : (type == .warning ? Color.yellow : Color.red))
+            .cornerRadius(10)
     }
 }
