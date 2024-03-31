@@ -2,7 +2,7 @@ from langchain import hub
 from langchain.agents import AgentExecutor, create_structured_chat_agent
 from langchain_community.tools.tavily_search import TavilySearchResults
 from langchain_community.llms import Ollama
-from rag import retrieve_docs
+from llm.rag import retrieve_docs
 from langchain.callbacks.streaming_stdout import StreamingStdOutCallbackHandler
 from langchain.callbacks.manager import CallbackManager
 from langchain.chains import create_history_aware_retriever
@@ -10,7 +10,7 @@ from langchain_core.prompts import ChatPromptTemplate, MessagesPlaceholder
 from langchain.chains import create_retrieval_chain
 from langchain.chains.combine_documents import create_stuff_documents_chain
 from langchain_core.messages import HumanMessage
-from persona import persona_prompt
+from llm.persona import persona_prompt
 import base64
 from PIL import Image
 from io import BytesIO
@@ -31,14 +31,14 @@ def convert_to_base64(pil_image):
 def bakllava_chat(query: str, file_path: str, chat_history: list = [], persona: str = None):
     pil_image = Image.open(file_path)
     image_b64 = convert_to_base64(pil_image)
-    
+
     _qa_system_prompt = persona_prompt(persona) + """\
     Use the following pieces of retrieved context to answer the question. \
     If you don't know the answer, just say that you don't know. \
     Use three sentences maximum and keep the answer concise.\
 
     {context}"""
-    
+
     _qa_prompt = ChatPromptTemplate.from_messages(
         [
             ("system", _qa_system_prompt),

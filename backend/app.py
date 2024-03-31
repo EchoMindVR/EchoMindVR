@@ -2,7 +2,8 @@ import os
 from flask import request, jsonify
 from werkzeug.utils import secure_filename
 from database import app, db, Teacher, Course, Lecture, Student, Enrollment
-from llm.gemma import ChatAgent
+from llm.chat_agent import ChatAgent
+from llm.pdf_split import load_pdfs_into_chroma_db
 
 # CORS(app)
 from audio.tts import TTS
@@ -12,7 +13,7 @@ BASE_DIR = os.path.dirname(__file__)
 # Directories for uploads and data, now relative to the script's location
 app.config['AUDIO_FOLDER'] = os.path.join(BASE_DIR, 'audio/audio_resources')
 
-
+load_pdfs_into_chroma_db()
 @app.route('/')
 def test_connection():
     return jsonify({'message': 'API is up and running!'}), 200
@@ -263,7 +264,7 @@ def enroll_course():
 
 # ChatAgent
 # We init for test purpose since we won't call init each time in test
-CURR_CHAT_AGENT = ChatAgent()
+CURR_CHAT_AGENT = None
 LECTURE_ID = 0
 
 
@@ -271,7 +272,7 @@ LECTURE_ID = 0
 def chat_init():
     global LECTURE_ID
     LECTURE_ID = request.get_json().get('lecture', '')
-    chat_agent = ChatAgent(LECTURE_ID)
+    chat_agent = ChatAgent()
 
     global CURR_CHAT_AGENT
     CURR_CHAT_AGENT = chat_agent
@@ -291,7 +292,7 @@ def chat_extend():
         query = f"Give me a lesson on {query}"
 
     print(query)
-    response = chat_agent.gemma_chat(query)
+    response = chat_agent.chat('gemma', query, persona='storyteller')
     output = response['answer']
     return jsonify({'response': output}), 200
 
@@ -303,11 +304,14 @@ def talk_gemma():
 
     global CURR_CHAT_AGENT
     chat_agent = CURR_CHAT_AGENT
+    if len(chat_agent.get_chat_history()) == 0:
+        query = f"Give me a lesson on {query}"
 
+    print(query)
     response = chat_agent.gemma_chat(query)
     output = response['answer']
-    tts.generate_audio(output, 'steven_he')
-    return jsonify({'response': output}), 200
+    audio_path = tts.generate_audio(output, 'andrew_ng')
+    return jsonify({'response': output, 'audioPath': audio_path}), 200
 
 
 @app.route('/db/reset', methods=['POST'])

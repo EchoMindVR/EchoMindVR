@@ -8,8 +8,8 @@ from langchain.pydantic_v1 import BaseModel, Field
 from langchain_google_vertexai import ChatVertexAI
 from langchain.tools import BaseTool, StructuredTool, tool
 from langchain.docstore.document import Document
-from persona import persona_prompt
-from rag import retrieve_docs
+from llm.persona import persona_prompt
+from llm.rag import retrieve_docs
 from dotenv import load_dotenv
 load_dotenv()
 os.environ["WOLFRAM_ALPHA_APPID"] = os.getenv("WOLFRAM_ALPHA_APPID")
@@ -26,7 +26,7 @@ def create_image_message(query, image_url):
             {"type": "image_url", "image_url": {"url": image_url}},
         ]
     )]
-    
+
 @tool
 def vision_generate(query: str, file_path: str):
     """Use the vision model to generate text from an image.
@@ -46,7 +46,7 @@ def retrieval_augmented_generation(query: str):
     retriever = retrieve_docs(query).as_retriever(search_type="mmr", search_kwargs={'k': 4})
     docs = retriever.get_relevant_documents(query)
     return "\n\n".join(doc.page_content for doc in docs)
-    
+
 @tool
 def wolfram_alpha_query(query: str):
     """Use the Wolfram Alpha API to get the result of a math query.
@@ -60,21 +60,21 @@ def gemini_chat(query: str, persona: str = None, file_path: str = None):
 
     prompt = hub.pull("kenwu/react-json")
 
-    
+
     if file_path is not None:
         query = "I have an image to share with you at the following path: " + file_path + "\n" + query
 
     if persona is not None:
         query = persona_prompt(persona) + "\n" + query
-        
+
     # Create the agent
     agent = create_json_chat_agent(llm, tools, prompt)
 
     # Create an agent executor by passing in the agent and tools
     agent_executor = AgentExecutor(
-        agent=agent, 
-        tools=tools, 
-        verbose=True, 
+        agent=agent,
+        tools=tools,
+        verbose=True,
         handle_parsing_errors=True,
         max_iterations=5,
         return_intermediate_steps=True
