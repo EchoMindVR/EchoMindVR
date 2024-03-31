@@ -41,7 +41,7 @@ def signup_teacher():
     password = data['password']
     if name == '' or password == '':
         return jsonify({'message':'ERROR OCCUR!'}), 404
-    
+
     # Check if a teacher with the given name already exists
     existing_teacher = Teacher.query.filter_by(name=name).first()
     if existing_teacher is not None:
@@ -57,13 +57,11 @@ def signup_teacher():
 
 @app.route('/teacher/login', methods=['POST'])
 def login_teacher():
-    print("aaa")
     data = request.get_json()
-    print(f'data is here: {data}')
     name = data['name']
     password = data['password']
-    print(f'name: {name}')
-    print(f'password: {password}')
+    if name == '' or password == '':
+        return jsonify({'message': 'ERROR OCCUR!'}), 404
     teacher = Teacher.query.filter_by(name=name).first()
     if teacher is not None and teacher.password == password:
         return jsonify({'message': f'Teacher {name} log in successful'}), 201
@@ -267,18 +265,20 @@ def enroll_course():
 # ChatAgent
 # We init for test purpose since we won't call init each time in test
 CURR_CHAT_AGENT = ChatAgent()
+LECTURE_ID = 0
+
 
 
 @app.route('/gemma/init', methods=['POST'])
 def chat_init():
-    print(request)
-    lecture = request.get_json().get('lecture', '')
-    chat_agent = ChatAgent(lecture)
+    global LECTURE_ID
+    LECTURE_ID = request.get_json().get('lecture', '')
+    chat_agent = ChatAgent(LECTURE_ID)
 
     global CURR_CHAT_AGENT
     CURR_CHAT_AGENT = chat_agent
 
-    return jsonify({'lecture':lecture}), 200
+    return jsonify({'lecture': LECTURE_ID}), 200
 
 
 @app.route('/gemma/extend', methods=['POST'])
@@ -288,7 +288,7 @@ def chat_extend():
     global CURR_CHAT_AGENT
     chat_agent = CURR_CHAT_AGENT
 
-    
+
     if len(chat_agent.get_chat_history()) == 0:
         query = f"Give me a lesson on {query}"
 
@@ -316,7 +316,6 @@ def reset_database():
     db.drop_all()
     db.create_all()
     return jsonify({'message': 'Database reset successfully.'}), 200
-    
 
 tts = TTS()
 

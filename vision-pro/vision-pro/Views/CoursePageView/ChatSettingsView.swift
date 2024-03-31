@@ -86,7 +86,7 @@ struct SettingsView: View {
                     }
                     .padding(.horizontal, 10)
                 }
-                .background(Color.black.opacity(0.2))
+                .background(Color.black.opacity(0.35))
                 .cornerRadius(12)
                 .padding(.horizontal, 20)
                 
@@ -101,7 +101,7 @@ struct SettingsView: View {
                     .padding(.bottom, 35)
             }
             .frame(width: 360) // Fixed width for the settings view
-            .background(Color.gray.opacity(0.2)) // Match the background style
+            .background(Color.gray.opacity(0.35)) // Match the background style
             .cornerRadius(20)
             .padding()
         }
