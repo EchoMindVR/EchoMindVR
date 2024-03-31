@@ -1,20 +1,14 @@
-from langchain import hub
-from langchain.agents import AgentExecutor, create_structured_agent
-from langchain_community.utilities.wolfram_alpha import WolframAlphaAPIWrapper
-from langchain.pydantic_v1 import BaseModel, Field
-from langchain_google_vertexai import ChatVertexAI
-from langchain.tools import BaseTool, StructuredTool, tool
-from rag import retrieve_docs
-
 import os
 from langchain_core.messages import HumanMessage
 from langchain import hub
 from langchain.agents import AgentExecutor, create_json_chat_agent, load_tools
 from langchain_community.utilities.wolfram_alpha import WolframAlphaAPIWrapper
+from langchain_core.prompts import ChatPromptTemplate
 from langchain.pydantic_v1 import BaseModel, Field
 from langchain_google_vertexai import ChatVertexAI
 from langchain.tools import BaseTool, StructuredTool, tool
 from langchain.docstore.document import Document
+from persona import persona_prompt
 from rag import retrieve_docs
 from dotenv import load_dotenv
 load_dotenv()
@@ -34,13 +28,13 @@ def create_image_message(query, image_url):
     )]
     
 @tool
-def vision_generate(query: str, image_url: str = "https://picsum.photos/seed/picsum/300/300"):
+def vision_generate(query: str, file_path: str):
     """Use the vision model to generate text from an image.
     query: str: The image to generate text from.
-    image_url: str: The image url.
+    file_path: str: The path to the image file.
     THERE ARE TWO PARAMETERS
     """
-    query = create_image_message(query, image_url)
+    query = create_image_message(query, file_path)
     return llm.invoke(query)
 
 @tool
@@ -61,11 +55,18 @@ def wolfram_alpha_query(query: str):
     """
     return WolframAlphaAPIWrapper().run(query) + "\n"
 
-def gemini_chat(query: str):
+def gemini_chat(query: str, persona: str = None, file_path: str = None):
     tools = [wolfram_alpha_query, retrieval_augmented_generation, vision_generate]
 
-    prompt = hub.pull("hwchase17/react-chat-json")
+    prompt = hub.pull("kenwu/react-json")
 
+    
+    if file_path is not None:
+        query = "I have an image to share with you at the following path: " + file_path + "\n" + query
+
+    if persona is not None:
+        query = persona_prompt(persona) + "\n" + query
+        
     # Create the agent
     agent = create_json_chat_agent(llm, tools, prompt)
 
@@ -83,5 +84,5 @@ def gemini_chat(query: str):
         'input': {query},
     }
 
-    response = agent_executor.invoke(text_message)
+    response = agent_executor.invoke(query)
     return response
