@@ -2,7 +2,7 @@ import os
 from flask import Flask, request, jsonify
 from werkzeug.utils import secure_filename
 from flask_sqlalchemy import SQLAlchemy
-from database import app, db, Teacher, Course, Lecture
+from database import app, db, Teacher, Course, Lecture, Student, Enrollment
 from llm.gemma import ChatAgent
 
 # CORS(app)
@@ -200,7 +200,8 @@ def chat_extend():
     output = response['answer']
     return jsonify({'response': output}), 200
 
-@app.route('/student/create_student', methods=['POST'])
+
+@app.route('/student/create', methods=['POST'])
 def create_student():
     data = request.get_json()
 
@@ -218,6 +219,7 @@ def create_student():
         db.session.commit()
 
     return jsonify({'message': f'Student "{name}" created successfully.'}), 201
+
 
 @app.route('/student/enroll_course', methods=['POST'])
 def enroll_course():
@@ -247,7 +249,6 @@ def enroll_course():
     return jsonify({'message': f'Student "{student_id}" enrolled in course "{course_id}" successfully.'}), 201
 
 
-
 @app.route('/gemma/talk', methods=['POST'])
 def talk_gemma():
     query = request.get_json().get('query', '')
@@ -260,49 +261,7 @@ def talk_gemma():
     # tts.generate_audio(output, 'steven_he')
     return jsonify({'response': output}), 200
 
-
 # tts = TTS()
-
-
-# create student, enrol course
-@app.route('/teacher/create_student', methods=['POST'])
-def create_lecture():
-    data = request.get_json()
-
-    if not data or not all(k in data for k in ('lecture_id', 'course_name', 'context', 'summary_notes_path')):
-        return jsonify({'error': 'Missing data'}), 400
-
-    course_name = data['course_name']
-    course = Course.query.filter_by(name=course_name).first()
-
-    if not course:
-        # If the course doesn't exist, create it
-        course = Course(name=course_name, teacher_name="Default Teacher", cover_path="default_cover.jpg")
-        db.session.add(course)
-        db.session.flush()  # Flush to assign an ID to the course
-
-    lecture_id = data['lecture_id']
-    lecture = Lecture.query.filter_by(lecture_id=lecture_id).first()
-
-    if lecture:
-        # If the lecture exists, update it
-        lecture.context = data['context']
-        lecture.summary_notes_path = data['summary_notes_path']
-    else:
-        # If the lecture doesn't exist, create it
-        lecture = Lecture(
-            lecture_id=lecture_id,
-            course_id=course.id,
-            context=data['context'],
-            summary_notes_path=data['summary_notes_path']
-        )
-        db.session.add(lecture)
-
-    db.session.commit()
-
-    return jsonify({'message': f'Lecture "{lecture_id}" created/updated successfully under course "{course_name}".'}), 201
-
-
 
 if __name__ == '__main__':
     with app.app_context():
