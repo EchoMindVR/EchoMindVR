@@ -1,7 +1,6 @@
 import os
-from flask import Flask, request, jsonify
+from flask import request, jsonify
 from werkzeug.utils import secure_filename
-from flask_sqlalchemy import SQLAlchemy
 from database import app, db, Teacher, Course, Lecture, Student, Enrollment
 from llm.gemma import ChatAgent
 
@@ -268,7 +267,6 @@ CURR_CHAT_AGENT = ChatAgent()
 LECTURE_ID = 0
 
 
-
 @app.route('/gemma/init', methods=['POST'])
 def chat_init():
     global LECTURE_ID
@@ -317,9 +315,12 @@ def reset_database():
     db.create_all()
     return jsonify({'message': 'Database reset successfully.'}), 200
 
+
 tts = TTS()
+
 
 if __name__ == '__main__':
     with app.app_context():
         db.create_all()
     app.run(debug=True)
+    
