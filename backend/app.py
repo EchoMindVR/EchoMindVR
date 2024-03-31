@@ -19,7 +19,6 @@ def test_connection():
     return jsonify({'message': 'API is up and running!'}), 200
 
 
-
 @app.route('/teacher/create', methods=['POST'])
 def create_teacher():
     if 'audio' not in request.files:
@@ -48,11 +47,11 @@ def create_teacher():
 @app.route('/teacher/read', methods=['GET', 'POST'])
 def read_teacher():
     if request.method == 'POST':
-        data = request.get_json()
+        data = request.json
 
         # For reading a specific teacher's details by name from the request body
         if data and 'name' in data:
-            name = data['name']
+            name = data.get('name')
             teacher = Teacher.query.filter_by(name=name).first()
             if teacher:
                 return jsonify({'name': teacher.name, 'audio_path': teacher.audio_path}), 200
@@ -67,16 +66,9 @@ def read_teacher():
         return jsonify(teachers_list), 200
 
 
-@app.route('/db/reset', methods=['POST'])
-def reset_database():
-    db.drop_all()
-    db.create_all()
-    return jsonify({'message': 'Database reset successfully.'}), 200
-
-
-@app.route('/teacher/create_course', methods=['POST'])
+@app.route('/teacher/course', methods=['POST'])
 def create_course():
-    data = request.get_json()
+    data = request.form
 
     if not data or 'name' not in data:
         return jsonify({'error': 'Course name is required'}), 400
@@ -101,11 +93,11 @@ def create_course():
     return jsonify({'message': f'Course "{course_name}" created successfully.'}), 201
 
 
-@app.route('/teacher/create_lecture', methods=['POST'])
+@app.route('/teacher/course/lecture', methods=['POST'])
 def create_lecture():
-    data = request.get_json()
+    data = request.form
 
-    if not data or not all(k in data for k in ('lecture_id', 'course_name', 'context', 'summary_notes_path')):
+    if not data or not all(k in data for k in ('context', 'summary_notes_path')):
         return jsonify({'error': 'Missing data'}), 400
 
     course_name = data['course_name']
@@ -117,37 +109,27 @@ def create_lecture():
         db.session.add(course)
         db.session.flush()  # Flush to assign an ID to the course
 
-    lecture_id = data['lecture_id']
-    lecture = Lecture.query.filter_by(lecture_id=lecture_id).first()
-
-    if lecture:
-        # If the lecture exists, update it
-        lecture.context = data['context']
-        lecture.summary_notes_path = data['summary_notes_path']
-    else:
-        # If the lecture doesn't exist, create it
-        lecture = Lecture(
-            lecture_id=lecture_id,
-            course_id=course.id,
-            context=data['context'],
-            summary_notes_path=data['summary_notes_path']
-        )
-        db.session.add(lecture)
-
+    lecture = Lecture(
+        course_id=course.id,
+        context=data['context'],
+        summary_notes_path=data['summary_notes_path']
+    )
+    db.session.add(lecture)
     db.session.commit()
 
-    return jsonify({'message': f'Lecture "{lecture_id}" created/updated successfully under course "{course_name}".'}), 201
+    return jsonify({'message': f'Lecture "{lecture.id}" created/updated successfully under course "{course_name}".'}), 201
 
 
 @app.route('/course/read', methods=['GET', 'POST'])
 def read_course():
+    data = request.json
     if request.method == 'POST':
-        course_name = request.args.get('name')
+        course_name = data.get('name')
         # Reading a specific course and its lectures
         course = Course.query.filter_by(name=course_name).first()
         if course:
             lectures = Lecture.query.filter_by(course_id=course.id).all()
-            lectures_info = [{'lecture_id': lecture.lecture_id, 'summary_notes_path': lecture.summary_notes_path, 'context': lecture.context} for lecture in lectures]
+            lectures_info = [{'lecture_id': lecture.id, 'summary_notes_path': lecture.summary_notes_path, 'context': lecture.context} for lecture in lectures]
             return jsonify({
                 'name': course.name,
                 'teacher_name': course.teacher_name,
@@ -162,7 +144,7 @@ def read_course():
         courses_info = []
         for course in courses:
             lectures = Lecture.query.filter_by(course_id=course.id).all()
-            lectures_info = [{'lecture_id': lecture.lecture_id, 'summary_notes_path': lecture.summary_notes_path, 'context': lecture.context} for lecture in lectures]
+            lectures_info = [{'lecture_id': lecture.id, 'summary_notes_path': lecture.summary_notes_path, 'context': lecture.context} for lecture in lectures]
             course_info = {
                 'name': course.name,
                 'teacher_name': course.teacher_name,
@@ -173,8 +155,10 @@ def read_course():
         return jsonify(courses_info), 200
     return jsonify({'error': 'Invalid request'}), 400
 
+
 # We init for test purpose since we won't call init each time in test
 CURR_CHAT_AGENT = ChatAgent()
+
 
 @app.route('/gemma/init', methods=['POST'])
 def chat_init():
@@ -203,7 +187,7 @@ def chat_extend():
 
 @app.route('/student/create', methods=['POST'])
 def create_student():
-    data = request.get_json()
+    data = request.form
 
     if not data or not all(k in data for k in ('name',)):
         return jsonify({'error': 'Missing data'}), 400
@@ -223,7 +207,7 @@ def create_student():
 
 @app.route('/student/enroll_course', methods=['POST'])
 def enroll_course():
-    data = request.get_json()
+    data = request.form
 
     if not data or not all(k in data for k in ('student_id', 'course_id')):
         return jsonify({'error': 'Missing data'}), 400
@@ -258,10 +242,17 @@ def talk_gemma():
 
     response = chat_agent.gemma_chat(query)
     output = response['answer']
-    # tts.generate_audio(output, 'steven_he')
+    tts.generate_audio(output, 'steven_he')
     return jsonify({'response': output}), 200
 
-# tts = TTS()
+
+@app.route('/db/reset', methods=['POST'])
+def reset_database():
+    db.drop_all()
+    db.create_all()
+    return jsonify({'message': 'Database reset successfully.'}), 200
+
+tts = TTS()
 
 if __name__ == '__main__':
     with app.app_context():
