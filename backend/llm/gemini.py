@@ -1,4 +1,3 @@
-<<<<<<< Updated upstream
 from langchain import hub
 from langchain.agents import AgentExecutor, create_structured_agent
 from langchain_community.utilities.wolfram_alpha import WolframAlphaAPIWrapper
@@ -7,8 +6,6 @@ from langchain_google_vertexai import ChatVertexAI
 from langchain.tools import BaseTool, StructuredTool, tool
 from rag import retrieve_docs
 
-=======
->>>>>>> Stashed changes
 import os
 from langchain_core.messages import HumanMessage
 from langchain import hub
@@ -22,8 +19,6 @@ from rag import retrieve_docs
 from dotenv import load_dotenv
 load_dotenv()
 os.environ["WOLFRAM_ALPHA_APPID"] = os.getenv("WOLFRAM_ALPHA_APPID")
-<<<<<<< Updated upstream
-=======
 
 llm = ChatVertexAI(model_name="gemini-pro-vision", temperature=0, stop=['Observation:'], convert_system_message_to_human=True)
 
@@ -37,8 +32,7 @@ def create_image_message(query, image_url):
             {"type": "image_url", "image_url": {"url": image_url}},
         ]
     )]
->>>>>>> Stashed changes
-
+    
 @tool
 def vision_generate(query: str, image_url: str = "https://picsum.photos/seed/picsum/300/300"):
     """Use the vision model to generate text from an image.
@@ -58,15 +52,7 @@ def retrieval_augmented_generation(query: str):
     retriever = retrieve_docs(query).as_retriever(search_type="mmr", search_kwargs={'k': 4})
     docs = retriever.get_relevant_documents(query)
     return "\n\n".join(doc.page_content for doc in docs)
-
-<<<<<<< Updated upstream
-def gemini_chat(query: str, chat_history: list = [], image_url: str = None):
-    if image:
-        llm = ChatVertexAI(model="gemini-pro-vision", temperature=0)
-        
-    else:
-        llm = ChatVertexAI(model="gemini-pro", temperature=0)
-=======
+    
 @tool
 def wolfram_alpha_query(query: str):
     """Use the Wolfram Alpha API to get the result of a math query.
@@ -74,7 +60,6 @@ def wolfram_alpha_query(query: str):
     THERE IS ONLY ONE QUERY PARAMETER
     """
     return WolframAlphaAPIWrapper().run(query) + "\n"
->>>>>>> Stashed changes
 
 def gemini_chat(query: str):
     tools = [wolfram_alpha_query, retrieval_augmented_generation, vision_generate]
@@ -94,23 +79,9 @@ def gemini_chat(query: str):
         return_intermediate_steps=True
     )
 
-<<<<<<< Updated upstream
-    response = agent_executor.invoke(
-        {
-            "input": query,
-            "chat_history": chat_history,
-        }
-    )
-
-    if image:
-        chat_history.extend([HumanMessage(content=query.content[0]['text'])], response["output"])
-    else:
-        chat_history.extend([HumanMessage(content=query), response["output"]])
-=======
     query = {
         'input': {query},
     }
->>>>>>> Stashed changes
 
     response = agent_executor.invoke(text_message)
     return response
