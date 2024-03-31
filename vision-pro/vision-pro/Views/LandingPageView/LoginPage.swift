@@ -19,8 +19,8 @@ struct LoginPage: View {
     @State private var alertOpacity: Double = 1.0
     @State private var alertType: AlertType = .success
 
-
     @Binding var isLoggedIn: Bool
+    @Binding var userName: String
 
     var body: some View {
         ZStack {
@@ -211,6 +211,7 @@ struct LoginPage: View {
             DispatchQueue.main.async {
                 if httpResponse.statusCode == 201 {
                     isLoggedIn = true
+                    userName = username
                 } else if httpResponse.statusCode == 409 {
                     alertMessage = "Name or Password Wrong"
                     alertType = .warning

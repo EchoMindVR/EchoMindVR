@@ -22,6 +22,7 @@ struct HomePage: View {
     
     @Binding var isPresentingClassroomDetail: Bool;
     @Binding var isLoggedIn: Bool;
+    @Binding var userName: String;
     @State var query: String = "";
     
     let classes: [Classroom] = [
@@ -56,6 +57,8 @@ struct HomePage: View {
                         .frame(width: 60, height: 60)
                     Text("Welcome Back! ")
                         .font(.largeTitle)
+                    Text(userName)
+                        .font(.title)
                     
                     Spacer()
                     Button(action: {

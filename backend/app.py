@@ -271,6 +271,7 @@ CURR_CHAT_AGENT = ChatAgent()
 
 @app.route('/gemma/init', methods=['POST'])
 def chat_init():
+    print(request)
     lecture = request.get_json().get('lecture', '')
     chat_agent = ChatAgent(lecture)
 
@@ -286,9 +287,12 @@ def chat_extend():
     # check first time response
     global CURR_CHAT_AGENT
     chat_agent = CURR_CHAT_AGENT
-    if len(chat_agent.get_chat_history) == 0:
-        query = "Teach me (TODO) blabla"
 
+    
+    if len(chat_agent.get_chat_history()) == 0:
+        query = f"Give me a lesson on {query}"
+
+    print(query)
     response = chat_agent.gemma_chat(query)
     output = response['answer']
     return jsonify({'response': output}), 200
@@ -312,6 +316,7 @@ def reset_database():
     db.drop_all()
     db.create_all()
     return jsonify({'message': 'Database reset successfully.'}), 200
+    
 
 tts = TTS()
 
