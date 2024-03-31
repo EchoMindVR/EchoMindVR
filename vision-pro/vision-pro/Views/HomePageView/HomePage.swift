@@ -2,20 +2,20 @@ import SwiftUI
 
 
 let dummyText = """
-CS51 is a beginner-friendly course aimed at demystify
-ing the mechanics and applications of generative
-artificial intelligence. Students will delve into key
-concepts such as neural networks, machine learning,
-and models like GPT and DALL-E. Through lectures,
-hands-on projects, and discussions, learners will
-explore how these technologies create new content,
-their real-world applications, and ethical
-considerations. The course aims to equip students
-with a foundational understanding of generative AI,
-enabling them to conceptualize and assess
-AI-generated content critically. No prior AI knowledge 
-is required, making it perfect for those curious about
-entering the AI field.
+    CS51 is a beginner-friendly course aimed at demystify
+    ing the mechanics and applications of generative
+    artificial intelligence. Students will delve into key
+    concepts such as neural networks, machine learning,
+    and models like GPT and DALL-E. Through lectures,
+    hands-on projects, and discussions, learners will
+    explore how these technologies create new content,
+    their real-world applications, and ethical
+    considerations. The course aims to equip students
+    with a foundational understanding of generative AI,
+    enabling them to conceptualize and assess
+    AI-generated content critically. No prior AI knowledge
+    is required, making it perfect for those curious about
+    entering the AI field.
 """
 
 struct HomePage: View {

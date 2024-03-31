@@ -53,7 +53,7 @@ struct CoursePageView: View {
                             Spacer()
                             Text(dateFormatter.string(from: lesson.date))
                                 .font(.footnote)
-                                .foregroundColor(.gray)
+                                .foregroundColor(.white)
                             Image(systemName: "chevron.right")
                         }
                        

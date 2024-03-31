@@ -18,10 +18,62 @@ app.config['AUDIO_FOLDER'] = os.path.join(BASE_DIR, 'audio/audio_resources')
 def test_connection():
     return jsonify({'message': 'API is up and running!'}), 200
 
-
-# Teacher
 @app.route('/teacher/create', methods=['POST'])
 def create_teacher():
+    data = request.get_json()
+    name = data['name']
+    password = data['password']
+    if name == '' or password == '':
+        return jsonify({'message':'ERROR OCCUR!'}), 404
+    teacher = Teacher.query.filter_by(name=name).first()
+    if teacher is not None:
+        return jsonify({'message': f'User {name} is already created'}), 409
+
+    teacher = Teacher(name=name, password=password)
+    db.session.add(teacher)
+    return jsonify({'message': f'Teacher {name} created/updated successfully'}), 201
+
+
+@app.route('/teacher/signup', methods=['POST'])
+def signup_teacher():
+    data = request.get_json()
+    name = data['name']
+    password = data['password']
+    if name == '' or password == '':
+        return jsonify({'message':'ERROR OCCUR!'}), 404
+    
+    # Check if a teacher with the given name already exists
+    existing_teacher = Teacher.query.filter_by(name=name).first()
+    if existing_teacher is not None:
+        return jsonify({'message': f'Teacher with name {name} already exists'}), 409
+
+    # Create a new teacher and add it to the database
+    new_teacher = Teacher(name=name, password=password)
+    db.session.add(new_teacher)
+    db.session.commit()
+
+    return jsonify({'message': f'Teacher {name} signed up successfully'}), 201
+
+
+@app.route('/teacher/login', methods=['POST'])
+def login_teacher():
+    print("aaa")
+    data = request.get_json()
+    print(f'data is here: {data}')
+    name = data['name']
+    password = data['password']
+    print(f'name: {name}')
+    print(f'password: {password}')
+    teacher = Teacher.query.filter_by(name=name).first()
+    if teacher is not None and teacher.password == password:
+        return jsonify({'message': f'Teacher {name} log in successful'}), 201
+    else:
+        return jsonify({'message': f'Name or Password Wrong'}), 409
+
+
+
+@app.route('/teacher/audio', methods=['POST'])
+def create_teacher_audio():
     if 'audio' not in request.files:
         return jsonify({'error': 'Missing audio data'}), 400
     elif 'name' not in request.form:
@@ -219,23 +271,23 @@ CURR_CHAT_AGENT = ChatAgent()
 
 @app.route('/gemma/init', methods=['POST'])
 def chat_init():
-    lecture = Lecture.query.filter_by(id=id).all()
-    context = lecture.context
-
+    lecture = request.get_json().get('lecture', '')
     chat_agent = ChatAgent(lecture)
 
     global CURR_CHAT_AGENT
     CURR_CHAT_AGENT = chat_agent
 
-    return jsonify({'context': context}), 200
+    return jsonify({'lecture':lecture}), 200
 
 
 @app.route('/gemma/extend', methods=['POST'])
 def chat_extend():
     query = request.get_json().get('query', '')
-
+    # check first time response
     global CURR_CHAT_AGENT
     chat_agent = CURR_CHAT_AGENT
+    if len(chat_agent.get_chat_history) == 0:
+        query = "Teach me (TODO) blabla"
 
     response = chat_agent.gemma_chat(query)
     output = response['answer']

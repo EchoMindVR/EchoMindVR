@@ -57,3 +57,6 @@ class ChatAgent():
         self.chat_history.extend([HumanMessage(content=query), response["answer"]])
 
         return response
+    
+    def get_chat_history(self):
+        return self.chat_history
