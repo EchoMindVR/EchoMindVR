@@ -28,6 +28,10 @@
 		7AD8E0612BB8A5220036B2E7 /* ChatSettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7AD8E0602BB8A5220036B2E7 /* ChatSettingsView.swift */; };
 		7AD8E0632BB8E87E0036B2E7 /* GlobalConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7AD8E0622BB8E87E0036B2E7 /* GlobalConstants.swift */; };
 		7AD8E0662BB92DD60036B2E7 /* AudioPlayerManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7AD8E0652BB92DD60036B2E7 /* AudioPlayerManager.swift */; };
+		7AD8E0692BBF39300036B2E7 /* LoginFunctions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7AD8E0682BBF39300036B2E7 /* LoginFunctions.swift */; };
+		7AD8E06B2BBF63530036B2E7 /* OpenAIService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7AD8E06A2BBF63530036B2E7 /* OpenAIService.swift */; };
+		7AD8E06E2BBF64E70036B2E7 /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = 7AD8E06D2BBF64E70036B2E7 /* Alamofire */; };
+		7AD8E0702BBF64E70036B2E7 /* AlamofireDynamic in Frameworks */ = {isa = PBXBuildFile; productRef = 7AD8E06F2BBF64E70036B2E7 /* AlamofireDynamic */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -54,6 +58,8 @@
 		7AD8E0602BB8A5220036B2E7 /* ChatSettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatSettingsView.swift; sourceTree = "<group>"; };
 		7AD8E0622BB8E87E0036B2E7 /* GlobalConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlobalConstants.swift; sourceTree = "<group>"; };
 		7AD8E0652BB92DD60036B2E7 /* AudioPlayerManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioPlayerManager.swift; sourceTree = "<group>"; };
+		7AD8E0682BBF39300036B2E7 /* LoginFunctions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginFunctions.swift; sourceTree = "<group>"; };
+		7AD8E06A2BBF63530036B2E7 /* OpenAIService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpenAIService.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -62,6 +68,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				7A5377272BB882A5002F18E1 /* RealityKitContent in Frameworks */,
+				7AD8E0702BBF64E70036B2E7 /* AlamofireDynamic in Frameworks */,
+				7AD8E06E2BBF64E70036B2E7 /* Alamofire in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -91,6 +99,7 @@
 				7A5377282BB882A5002F18E1 /* vision_proApp.swift */,
 				7A53772A2BB882A5002F18E1 /* ContentView.swift */,
 				7A53772C2BB882A5002F18E1 /* ImmersiveView.swift */,
+				7AD8E0672BBF390C0036B2E7 /* Utils */,
 				7A5377442BB8833E002F18E1 /* Components */,
 				7A5377542BB88353002F18E1 /* Views */,
 				7A53774A2BB88344002F18E1 /* Styles */,
@@ -98,7 +107,6 @@
 				7A53772E2BB882A5002F18E1 /* ImageBasedLighting.skybox */,
 				7A5377352BB882A6002F18E1 /* Info.plist */,
 				7A5377322BB882A6002F18E1 /* Preview Content */,
-				7AD8E0622BB8E87E0036B2E7 /* GlobalConstants.swift */,
 			);
 			path = "vision-pro";
 			sourceTree = "<group>";
@@ -168,7 +176,6 @@
 			isa = PBXGroup;
 			children = (
 				7A53774C2BB88353002F18E1 /* CoursePageView.swift */,
-				7AD8E05D2BB8A4DB0036B2E7 /* ChatView.swift */,
 				7AD8E0602BB8A5220036B2E7 /* ChatSettingsView.swift */,
 			);
 			path = CoursePageView;
@@ -185,6 +192,7 @@
 		7A5377502BB88353002F18E1 /* InteractivePageView */ = {
 			isa = PBXGroup;
 			children = (
+				7AD8E05D2BB8A4DB0036B2E7 /* ChatView.swift */,
 			);
 			path = InteractivePageView;
 			sourceTree = "<group>";
@@ -217,6 +225,16 @@
 			path = Audio;
 			sourceTree = "<group>";
 		};
+		7AD8E0672BBF390C0036B2E7 /* Utils */ = {
+			isa = PBXGroup;
+			children = (
+				7AD8E0622BB8E87E0036B2E7 /* GlobalConstants.swift */,
+				7AD8E0682BBF39300036B2E7 /* LoginFunctions.swift */,
+				7AD8E06A2BBF63530036B2E7 /* OpenAIService.swift */,
+			);
+			path = Utils;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -235,6 +253,8 @@
 			name = "vision-pro";
 			packageProductDependencies = (
 				7A5377262BB882A5002F18E1 /* RealityKitContent */,
+				7AD8E06D2BBF64E70036B2E7 /* Alamofire */,
+				7AD8E06F2BBF64E70036B2E7 /* AlamofireDynamic */,
 			);
 			productName = "vision-pro";
 			productReference = 7A5377212BB882A5002F18E1 /* vision-pro.app */;
@@ -264,6 +284,9 @@
 				Base,
 			);
 			mainGroup = 7A5377182BB882A5002F18E1;
+			packageReferences = (
+				7AD8E06C2BBF64E70036B2E7 /* XCRemoteSwiftPackageReference "Alamofire" */,
+			);
 			productRefGroup = 7A5377222BB882A5002F18E1 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -296,6 +319,8 @@
 				7AD8E0612BB8A5220036B2E7 /* ChatSettingsView.swift in Sources */,
 				7A5377292BB882A5002F18E1 /* vision_proApp.swift in Sources */,
 				7A5377552BB88353002F18E1 /* CoursePageView.swift in Sources */,
+				7AD8E06B2BBF63530036B2E7 /* OpenAIService.swift in Sources */,
+				7AD8E0692BBF39300036B2E7 /* LoginFunctions.swift in Sources */,
 				7AD8E05E2BB8A4DB0036B2E7 /* ChatView.swift in Sources */,
 				7AD8E05C2BB899910036B2E7 /* TypingText.swift in Sources */,
 				7A5377582BB88353002F18E1 /* LoginPage.swift in Sources */,
@@ -506,10 +531,31 @@
 		};
 /* End XCConfigurationList section */
 
+/* Begin XCRemoteSwiftPackageReference section */
+		7AD8E06C2BBF64E70036B2E7 /* XCRemoteSwiftPackageReference "Alamofire" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/Alamofire/Alamofire";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 5.9.1;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
 /* Begin XCSwiftPackageProductDependency section */
 		7A5377262BB882A5002F18E1 /* RealityKitContent */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = RealityKitContent;
+		};
+		7AD8E06D2BBF64E70036B2E7 /* Alamofire */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 7AD8E06C2BBF64E70036B2E7 /* XCRemoteSwiftPackageReference "Alamofire" */;
+			productName = Alamofire;
+		};
+		7AD8E06F2BBF64E70036B2E7 /* AlamofireDynamic */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 7AD8E06C2BBF64E70036B2E7 /* XCRemoteSwiftPackageReference "Alamofire" */;
+			productName = AlamofireDynamic;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

@@ -2,7 +2,7 @@ import SwiftUI
 
 // Create a BlurView that conforms to UIViewRepresentable
 struct BlurView: UIViewRepresentable {
-    var style: UIBlurEffect.Style = .systemThinMaterial
+    var style: UIBlurEffect.Style = .systemMaterialDark
     var cornerRadius: CGFloat = 30
 
    func makeUIView(context: Context) -> UIVisualEffectView {

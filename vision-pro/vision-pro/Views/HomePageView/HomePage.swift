@@ -26,7 +26,7 @@ struct HomePage: View {
     @State var query: String = "";
     
     let classes: [Classroom] = [
-        // Add your classroom data here
+        // Add your classroom data here 
         Classroom(name: "CS51 - Introduction to Generative AI", university: "Harvard University", imageName: "CS51"),
         Classroom(name: "ML 101 - Machine Learning Application", university: "University of Toronto", imageName: "ML101"),
         Classroom(name: "Entrepreneurship and Digital Business", university: "Ken Wu", imageName: "EN101"),
@@ -45,7 +45,6 @@ struct HomePage: View {
     }
     
     
-
 
     var body: some View {
         ZStack {

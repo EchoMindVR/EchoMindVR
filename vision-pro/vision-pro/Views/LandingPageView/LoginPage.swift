@@ -30,6 +30,16 @@ struct LoginPage: View {
                 .padding(.vertical, 110)
                 .cornerRadius(5)
                 
+            VStack {
+                Spacer() // Pushes the copyright text to the bottom
+
+                // Copyright text
+                Text("© 2024 Xiao, Ken, Jessica, Henry, Benny")
+                    .font(.footnote)
+                    .foregroundColor(.white)
+                    .padding(.bottom, 20) // Add some padding at the bottom
+            }
+            .frame(maxWidth: .infinity, maxHeight: .infinity) // Fill the entire screen
             
             VStack {
                 Spacer()
@@ -39,10 +49,10 @@ struct LoginPage: View {
                     // Account Type Selection
                     VStack(alignment: .leading) {
                         Text("Choose Account Type")
-                            .font(.title)
+                            .font(.largeTitle)
                             .fontWeight(.medium)
                             .foregroundColor(.white)
-                            .padding(.bottom, 40)
+                            .padding(.bottom, 30)
                         
 
                         HStack {
@@ -52,19 +62,19 @@ struct LoginPage: View {
                                 Text("Teacher")
                                     .fontWeight(.medium)
                                 Text("I teach things")
-                                    .font(.system(size: 12))
+                                    .font(.system(size: 15))
                                     .opacity(0.4)
                                     .fontWeight(.light)
                             }
                             Spacer()
                         }
-                        .frame(width: 240, height: 30)
+                        .frame(width: 260, height: 40)
                         .padding()
                         .foregroundColor(.white)
                         .background(Color.white.opacity(0.3))
                         .hoverEffect()
                         .padding(0) // Ensure no padding is applied
-                        .cornerRadius(12)
+                        .cornerRadius(10)
                         .onTapGesture {
                             selectedAccountType = .teacher
                         }
@@ -80,19 +90,19 @@ struct LoginPage: View {
                                 Text("Learner")
                                     .fontWeight(.medium)
                                 Text("I learn things")
-                                    .font(.system(size: 12))
+                                    .font(.system(size: 15))
                                     .opacity(0.4)
                                     .fontWeight(.light)
                             }
                             Spacer()
                         }
-                        .frame(width: 240, height: 30)
+                        .frame(width: 260, height: 40)
                         .padding()
                         .foregroundColor(.white)
                         .background(Color.white.opacity(0.3))
                         .hoverEffect()
                         .padding(0) // Ensure no padding is applied
-                        .cornerRadius(12)
+                        .cornerRadius(10)
                         .onTapGesture {
                             selectedAccountType = .learner
                         }
@@ -106,7 +116,7 @@ struct LoginPage: View {
                     // Login Form
                     VStack (alignment: .leading){
                         Text("Log in to your Account")
-                            .font(.title)
+                            .font(.largeTitle)
                             .fontWeight(.semibold)
                             .foregroundColor(.white)
                             .padding(.bottom, 10)
@@ -171,6 +181,7 @@ struct LoginPage: View {
             .cornerRadius(20)
 
             Spacer()
+
         }
         .edgesIgnoringSafeArea(.all)
         .overlay(
@@ -198,8 +209,13 @@ struct LoginPage: View {
     
     
     func loginUser() {
+        // Assume login always succeeds (FOR NOW):
+        if (username == "Ben") {
+            isLoggedIn = true
+            userName = username
+        }
+        
         guard let url = URL(string: "\(backendBaseURL)/teacher/login") else { return }
-        print(url)
         var request = URLRequest(url: url)
         request.httpMethod = "POST"
         request.setValue("application/json", forHTTPHeaderField: "Content-Type")
@@ -268,29 +284,3 @@ struct LoginPage: View {
 }
 
 
-struct CustomAlertView: View {
-    var message: String
-
-    var body: some View {
-        Text(message)
-            .padding()
-            .foregroundColor(.white)
-            .background(Color.red)
-            .cornerRadius(10)
-            .shadow(radius: 5)
-            .padding(.top, 50)
-    }
-}
-
-struct AlertView: View {
-    var message: String
-    var type: AlertType
-
-    var body: some View {
-        Text(message)
-            .foregroundColor(.white)
-            .padding()
-            .background(type == .success ? Color.green : (type == .warning ? Color.yellow : Color.red))
-            .cornerRadius(10)
-    }
-}

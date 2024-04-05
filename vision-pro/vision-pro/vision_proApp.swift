@@ -9,6 +9,8 @@ import SwiftUI
 
 @main
 struct Vision_Pro: App {
+    @Environment(\.userType) var userType
+    
     var body: some Scene {
         WindowGroup("Learning App", id: "modules") {
             ContentView()
