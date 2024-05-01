@@ -24,6 +24,8 @@ struct HomePage: View {
     @Binding var isLoggedIn: Bool;
     @Binding var userName: String;
     @State var query: String = "";
+        
+    @Environment(\.openWindow) private var openWindow
     
     let classes: [Classroom] = [
         // Add your classroom data here 
@@ -64,6 +66,20 @@ struct HomePage: View {
                         isLoggedIn = false
                     }) {
                         Text("Log Out")
+                            .foregroundColor(.white)
+                            .frame(maxWidth: .infinity)
+                            .padding()
+                    }
+                    .frame(width: 180, height: 28)
+                    .padding(.bottom, 20)
+                    
+                    
+                    // temp other button for opening notebook - Bill
+                    Button(action: {
+                        //appState.notebookVisible = true
+                        openWindow(id: "notebook")
+                    }) {
+                        Text("Notebook")
                             .foregroundColor(.white)
                             .frame(maxWidth: .infinity)
                             .padding()

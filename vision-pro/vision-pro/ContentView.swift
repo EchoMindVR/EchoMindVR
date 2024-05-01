@@ -8,6 +8,7 @@ struct ContentView: View {
     @State private var isLoggedIn = false
     @Environment(\.userType) var userType
     
+    
     // Make this global too! Have a user object or somethign
     @State private var username = ""
     
@@ -21,6 +22,6 @@ struct ContentView: View {
 
 }
 
-#Preview(windowStyle: .automatic) {
-    ContentView()
-}
+//#Preview(windowStyle: .automatic) {
+//    ContentView(appState: <#T##AppState#>)
+//}

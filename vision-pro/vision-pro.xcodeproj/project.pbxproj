@@ -32,6 +32,7 @@
 		7AD8E06B2BBF63530036B2E7 /* OpenAIService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7AD8E06A2BBF63530036B2E7 /* OpenAIService.swift */; };
 		7AD8E06E2BBF64E70036B2E7 /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = 7AD8E06D2BBF64E70036B2E7 /* Alamofire */; };
 		7AD8E0702BBF64E70036B2E7 /* AlamofireDynamic in Frameworks */ = {isa = PBXBuildFile; productRef = 7AD8E06F2BBF64E70036B2E7 /* AlamofireDynamic */; };
+		A953692F2BE16B98007805B0 /* NotebookView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A953692E2BE16B98007805B0 /* NotebookView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -60,6 +61,7 @@
 		7AD8E0652BB92DD60036B2E7 /* AudioPlayerManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioPlayerManager.swift; sourceTree = "<group>"; };
 		7AD8E0682BBF39300036B2E7 /* LoginFunctions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginFunctions.swift; sourceTree = "<group>"; };
 		7AD8E06A2BBF63530036B2E7 /* OpenAIService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpenAIService.swift; sourceTree = "<group>"; };
+		A953692E2BE16B98007805B0 /* NotebookView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotebookView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -99,6 +101,7 @@
 				7A5377282BB882A5002F18E1 /* vision_proApp.swift */,
 				7A53772A2BB882A5002F18E1 /* ContentView.swift */,
 				7A53772C2BB882A5002F18E1 /* ImmersiveView.swift */,
+				A953692E2BE16B98007805B0 /* NotebookView.swift */,
 				7AD8E0672BBF390C0036B2E7 /* Utils */,
 				7A5377442BB8833E002F18E1 /* Components */,
 				7A5377542BB88353002F18E1 /* Views */,
@@ -327,6 +330,7 @@
 				7A5377462BB8833E002F18E1 /* Card.swift in Sources */,
 				7A5377562BB88353002F18E1 /* HomePage.swift in Sources */,
 				7A5377472BB8833E002F18E1 /* TextField.swift in Sources */,
+				A953692F2BE16B98007805B0 /* NotebookView.swift in Sources */,
 				7A53772D2BB882A5002F18E1 /* ImmersiveView.swift in Sources */,
 				7A5377482BB8833E002F18E1 /* Schema.swift in Sources */,
 				7A5377572BB88353002F18E1 /* LandingView.swift in Sources */,
