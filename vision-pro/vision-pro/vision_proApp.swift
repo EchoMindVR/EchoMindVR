@@ -22,7 +22,7 @@ struct Vision_Pro: App {
         // Notebook page
         WindowGroup("Notebook", id: "notebook") {
                 NotebookView()
-        }.defaultSize(CGSize(width: 500, height: 300))
+        }.defaultSize(CGSize(width: 800, height: 500))
         
     
 //        ImmersiveSpace(id: "ImmersiveSpace") {
