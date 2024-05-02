@@ -12,7 +12,7 @@ import Alamofire
 
 class OpenAIService {
     private let endpointURL = "https://api.openai.com/v1/chat/completions"
-    private let openAIApiKey = "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" // too lazy so Imma expose for testing
+    private let openAIApiKey = "<github wont let me push secrets>" // too lazy so Imma expose for testing
     
     
     func sendMessage(messages: [Message]) async -> OpenAIChatResponse? {

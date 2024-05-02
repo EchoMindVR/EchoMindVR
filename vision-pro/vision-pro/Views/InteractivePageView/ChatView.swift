@@ -253,7 +253,7 @@ extension ChatView {
             let url = URL(string: "https://api.openai.com/v1/audio/speech")!
             var request = URLRequest(url: url)
             
-            let openAIApiKey = "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" // too lazy so Imma expose for testing
+            let openAIApiKey = "<github wont let me push secrets>" // too lazy so Imma expose for testing
             request.setValue("Bearer \(openAIApiKey)", forHTTPHeaderField: "Authorization")
             request.setValue("application/json", forHTTPHeaderField: "Content-Type")
             request.httpMethod = "POST"
